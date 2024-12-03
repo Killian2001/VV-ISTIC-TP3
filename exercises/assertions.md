@@ -12,7 +12,7 @@ Answer the following questions:
 
 ## Answer
 
-1. This assertion fails because of imprecisions related to floating numbers (a.k.a. IEEE-754 numbers). The result of the operation is actually `1.2000000000000002`. In order to test properly the value, we need to use the [`assertEquals(float expected, float actual, float delta)`](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/Assertions.html#assertEquals-float-float-float-) method: this method returns true if `actual == expected - delta || actual == expected + delta`, eliminating assertion fails due to IEEE-754 imprecisions. In our case, we may for example use `assertEquals(3 * .4, 1.2, 0.001)`, if such `0.001` imprecision is of course acceptable.
+1. This assertion fails due to imprecisions related to floating numbers (a.k.a. IEEE-754 numbers). The result of the operation is actually `1.2000000000000002`. In order to test properly the value, we need to use the [`assertEquals(float expected, float actual, float delta)`](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/Assertions.html#assertEquals-float-float-float-) method: this method returns true if `actual == expected - delta || actual == expected + delta`, eliminating assertion fails due to IEEE-754 imprecisions. In our case, we may for example use `assertEquals(3 * .4, 1.2, 0.001)`, if such `0.001` imprecision is of course acceptable.
 
 2. [`assertSame`](https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html#assertSame(java.lang.Object,java.lang.Object) verifies that two objects are identical, i.e. they have the same reference : `assertSame(obj1, obj2)` would perform the `obj1 == obj2` equality test.
   A case where `assertSame` and `assertObject` give same results is :
@@ -27,4 +27,6 @@ Answer the following questions:
   ```
   because `new String("test")` produces each time a distinct object.
 
-3. 
+3.
+
+4. The `assertThrows` method have as main advantage to look like a regular oracle function ; JUnit 4's `@Test(expected=...)` annotation have for main disadventage it indicates the expected exception at the top of the test case, without explicitely indicating what part of the code may throw an exception. `assertThrows` ensures that it is clear that an excepetion is expected for a given code, and enforces the comment -> initializing -> running -> oracle structure of tests.
