@@ -25,3 +25,36 @@ Smells discussed in classes were the following (in order, from [lecture slides](
 To prevent piggybacking, we can use the rule [`UnitTestContainsTooManyAsserts`](../pmd-documentation/UnitTestContainsTooManyAsserts.md), which allows PMD to warn the developper about multiple assertions in a test case.
 
 Other anti-patterns, like useless asserts, happy paths and hidden depandancies, relies more on the semantics of the test case, preventing PMD to detect them. For the case of an happy path, PMD cannot infer why the writtten program follows a best-case scenario ; hidden dependancies also relies by definition on unclear dependancy relatations, which can't be detected by PMD.
+
+We test the `UnitTestContainsTooManyAsserts` rule over Apache Commons Lang library using the command :
+
+```bash
+pmd check -d commons-lang/ -R category/java/bestpractices.xml/UnitTestContainsTooManyAsserts -r report_lang_tests
+```
+
+The [obtained report](report_lang_test) show multiples test cases containing serveral asserts. For example, the following result :
+
+```
+commons-lang\src\test\java\org\apache\commons\lang3\ArrayUtilsAddTest.java:35:	UnitTestContainsTooManyAsserts:	Unit tests should not contain more than 1 assert(s).
+```
+
+leads to this test case :
+
+```java
+@Test
+public void testAddFirstBoolean() {
+    boolean[] newArray;
+    newArray = ArrayUtils.addFirst(null, false);
+    assertArrayEquals(new boolean[] { false }, newArray);
+    assertEquals(Boolean.TYPE, newArray.getClass().getComponentType());
+    newArray = ArrayUtils.addFirst(null, true);
+    assertArrayEquals(new boolean[] { true }, newArray);
+    assertEquals(Boolean.TYPE, newArray.getClass().getComponentType());
+    final boolean[] array1 = { true, false, true };
+    newArray = ArrayUtils.addFirst(array1, false);
+    assertArrayEquals(new boolean[] { false, true, false, true }, newArray);
+    assertEquals(Boolean.TYPE, newArray.getClass().getComponentType());
+}
+```
+
+which clearly uses piggybacking, as several asserts on serveral values are run in the same test case.
