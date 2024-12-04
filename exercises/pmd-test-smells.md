@@ -21,3 +21,7 @@ Smells discussed in classes were the following (in order, from [lecture slides](
 - Happy path : consists to write the test following an optimistic scenario, which may not happen in real world environment ; in this case, the test case risks to miss evidents bugs of the tested feature.
 - Useless assert : writing asserts which will trivially succeeds, and brings nothing to the test.
 - Hidden dependancy (mentionned on slides, infos from [here](https://github.com/abmessaoud/webali.github.io/blob/master/_posts/2017-12-05-Unit-Testing-Anti-Patterns.md)) : implicit use of a component, initialized unknonwingly to the programmer, which lead to difficultly explainable failures.
+
+To prevent piggybacking, we can use the rule [`UnitTestContainsTooManyAsserts`](../pmd-documentation/UnitTestContainsTooManyAsserts.md), which allows PMD to warn the developper about multiple assertions in a test case.
+
+Other anti-patterns, like useless asserts, happy paths and hidden depandancies, relies more on the semantics of the test case, preventing PMD to detect them. For the case of an happy path, PMD cannot infer why the writtten program follows a best-case scenario ; hidden dependancies also relies by definition on unclear dependancy relatations, which can't be detected by PMD.
