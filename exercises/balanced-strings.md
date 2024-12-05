@@ -24,5 +24,36 @@ Use the coverage criteria studied in classes as follows:
 Write below the actions you took on each step and the results you obtained.
 Use the project in [tp3-balanced-strings](../code/tp3-balanced-strings) to complete this exercise.
 
+1. We can identify the following characteristics about the input :
+
+    1. `str` is `null` (boolean characteristic)
+    2. `str` is `empty`  (boolean characteristic)
+    3. `str` is balanced (boolean characteristic).
+    4. `str` contains other chars than grouping symbols (boolean characteristic).
+
+    Characteristics 1 and 2 are simple to test and both need only one test case
+    (a `null` string can only take the value `null`, and an empty string can take only the `""` value.)
+
+    Characteristics 3 and 4 are more difficult to test : they admit both a supposedly infinite set
+    of values; furthermore, we cannot split the set of balanced strings between a finite number
+    of blocks, due to its inductive nature.
+
+    We propose the following blocks over the input space of the function :
+
+    | Characteristics                 | Block 1    | Block 2    | Block 3 | Block 4 | Block 5 | Block 6 |
+    |---------------------------------|------------|------------|---------|---------|---------|---------|
+    | `str` is `null`                 | true       | false      | false   | false   | false   | false   |
+    | `str` is empty                  | irrelevant | true       | false   | false   | false   | false   |
+    | `str` contains other characters | irrelevant | irrelevant | false   | false   | true    | true    |
+    | `str` is balanced               | irrelevant | irrelevant | false   | true    | false   | true    |
+
+    Block 1 and block 2 correspond to the basic testing of the characteristics 1 and 2 ; in such
+    cases, it is irrelevant to work on all characterisitics, as there is no interest to check all 
+    properties over `null` and `""`.
+
+    Blocks 3 and 4 test values over balanced and unbalanced strings with only separator characters.
+
+    Blocks 5 and 6 test values over balanced and unbalanced strings with all possible characters.
+
 ## Answer
 
