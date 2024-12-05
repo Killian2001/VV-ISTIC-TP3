@@ -20,6 +20,9 @@ public class StringUtils {
      * @return <code>true</code> if <code>str</code> is balanced, <code>false</code> otherwise.
      */
     public static boolean isBalanced(String str) {
+        if (str == null)
+            return true;    // true through emptiness
+
         Deque<Character> symbStack = new ArrayDeque<>();
         String opening = "{[(";
         String closing = "}])";
