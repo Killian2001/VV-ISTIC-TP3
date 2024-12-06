@@ -40,6 +40,18 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <configuration>
+                    <targetClasses>
+                        <param>fr.istic.vv.StringUtils</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>fr.istic.vv.StringUtilsTest</param>
+                    </targetTests>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
