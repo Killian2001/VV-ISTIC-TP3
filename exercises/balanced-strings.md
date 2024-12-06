@@ -55,5 +55,109 @@ Use the project in [tp3-balanced-strings](../code/tp3-balanced-strings) to compl
 
     Blocks 5 and 6 test values over balanced and unbalanced strings with all possible characters.
 
+2. For the following implementation (annotated, see more detailed comments in the source code) :
+
+    ```java
+    public static boolean isBalanced(String str) {
+        // Statement 1
+        if (str == null)
+            return true;
+
+        Deque<Character> symbStack = new ArrayDeque<>();
+        String opening = "{[(";
+        String closing = "}])";
+
+        // Statement 2.
+        for (char chr : str.toCharArray()) {
+            int opIndex = opening.indexOf(chr);
+            int clIndex = closing.indexOf(chr);
+
+            // Statement 3.
+            if (opIndex != -1)
+                symbStack.push(chr);
+
+            // Statement 4.
+            if (clIndex != -1) {
+                // Statement 5.
+                if (symbStack.isEmpty())
+                    return false;
+
+                // Statement 6.
+                if (symbStack.pop() != opening.charAt(clIndex))
+                    return false;
+            }
+        }
+
+        // Statement 7.
+        return symbStack.isEmpty();
+    }
+    ```
+
+    - Statement 1 : `str == null` is `true` in block 1, `false` in other blocks.
+
+    - Statement 2 : to execute at least one time the body of the loop, the string
+    must be not empty : such condition is `true` in block 2, `false` in other 
+    blocks ; the block 1 is irrelevant in this case.
+
+    - Statement 3 : the condition is executed if the current char is an opening
+    character. **Input space partition does not currently take account if
+    there is opening symbols or not in the string**.
+    
+    - Statement 4 : the condition is executed if the current char is a closing
+    character. **Input space partition does not currently take account if
+    there is closing symbols or not in the string**.
+
+    - Statement 5 : the block is executed only if the stack is empty. This is
+    intended to happen if a closing character does not match any opening character.
+    **This case is partially covered by the characteristic 4. However, this
+    characteristic does not distinct a missing matching character to other cases
+    of unbalanced strings.**
+
+    - Statement 6 : the block is executed if an element corresponding to the 
+    closing character is of the current symbol is executed. This is
+    intended to happen if a closing character does match an opening character,
+    but not the good openin.
+    **This case is partially covered by the characteristic 4. However, this
+    characteristic does not distinct a wrong matching character to other cases
+    of unbalanced strings.**
+
+    - Statement 7 : no unmatched closing character had been encountered, but
+    the state of the stack indicates if there is still unmatched opening characters.
+    `true` will be returned on blocks 4 and 6 ; however, **the characteristic 4 
+    does not distinct an unmatching left opening matching character to other cases
+    of unbalanced strings.**
+
+    Following the previous evaluation of the statement coverage, we can add test cases that
+    cover these situations :
+
+    - `str` contains any opening symbols (noted `StrAnyOpening`)
+    - `str` contains a closing character which does not match any opening character 
+    (wrong closing character or not) (noted `StrClosingNoOpening`)
+    - `str` contains a closing character which matchs a correct or wrong opening
+    character (noted `StrClosingNoOpening`)
+    - `str` contains an unmatched opening character (noted `StrClosingWrongOpening`).
+
+We can use these criteria to work on unbalanced strings, and propose
+a partition of unbalanced inputs :
+
+| Characteristics          | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|--------------------------|---|---|---|---|---|---|---|
+| `StrAnyOpening`          | f | f | v | v | v | v | v |
+| `StrOpeningNoClosing`    | x | x | f | f | f | v | v |
+| `StrClosingNoOpening`    | f | v | f | v | v | f | v |
+| `StrClosingWrongOpening` | x | x | v | f | v | f | f |
+
+Note that when `StrAnyOpening` is true, i.e. there is no opening character,
+`StrOpeningNoClosing` (unmatched opening char) and `StrClosingWrongOpening`
+(closing symbol with wrong opeing) are not relevant.
+
+Some blocks had also been supressed while writing test cases, are some were
+equivalent, or other where not possibles.
+
+3. The code does not contain any predicate having at least 2 boolean
+operators.
+
+4. 
+
 ## Answer
 
