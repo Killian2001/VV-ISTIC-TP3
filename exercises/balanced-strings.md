@@ -24,6 +24,8 @@ Use the coverage criteria studied in classes as follows:
 Write below the actions you took on each step and the results you obtained.
 Use the project in [tp3-balanced-strings](../code/tp3-balanced-strings) to complete this exercise.
 
+## Answer
+
 1. We can identify the following characteristics about the input :
 
     1. `str` is `null` (boolean characteristic)
@@ -157,7 +159,44 @@ equivalent, or other where not possibles.
 3. The code does not contain any predicate having at least 2 boolean
 operators.
 
-4. 
+4. We use PIT integration to Maven following this page's instructions :
+https://pitest.org/quickstart/maven/
 
-## Answer
+    We add the PIT Maven plugin, by adding :
 
+    ```xml
+    <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+    </plugin>
+    ```
+
+    Then, we configure PIT to target the good project classes / test classes :
+
+    ```xml
+    <configuration>
+        <targetClasses>
+            <param>fr.istic.vv.StringUtils</param>
+        </targetClasses>
+        <targetTests>
+            <param>fr.istic.vv.StringUtilsTest</param>
+        </targetTests>
+    </configuration>
+    ```
+
+    Hence, the `StringUtils` class will be mutated, and our test suite from
+    `StringUtilTests` will be evaluated.
+
+    We can then run the mutation coverage analysis using the command :
+
+    ```bash
+    mvn test-compile org.pitest:pitest-maven:mutationCoverage
+    ```
+
+    The report obtained can be seen here : 
+    [`tp3-balanced-strings/target/pit-reports/202412061223/index.html`](../code/tp3-balanced-strings/target/pit-reports/202412061223/index.html).
+
+    PIT indicates a good line coverage (94%) of the test suite. The tool created
+    11 mutants, which had all been succesfully killed, producing a mutation
+    coverage of 100%., which shows, with the previous metric, that the test 
+    efficiently covers and evaluates the behaviour of the `isBalanced` function.
