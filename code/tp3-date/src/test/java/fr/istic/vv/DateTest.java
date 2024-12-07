@@ -390,6 +390,35 @@ class DateTest {
         assertTrue(Date.isValidDate(29, 2, 2024));
     }
 
+    // Base choice coverage.
+
+    /**
+     * Pass the 3/0/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - month inferior to 1")
+    void testIsValidDateMonthZero() {
+        assertFalse(Date.isValidDate(3, 0, 2024));
+    }
+
+    /**
+     * Pass the 0/10/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - day inferior to 1")
+    void testIsValidDateDayZero() {
+        assertFalse(Date.isValidDate(0, 10, 2024));
+    }
+
+    /**
+     * Pass the -10/-45/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - day and month inferior to 1")
+    void testIsValidDateNegMonthDay() {
+        assertFalse(Date.isValidDate(-10, -45, 2024));
+    }
+
     /* tests for compareTo */
 
     // input space partitioning tests
