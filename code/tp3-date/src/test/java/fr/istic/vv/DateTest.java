@@ -300,4 +300,125 @@ class DateTest {
 
     /* tests for isValidDate */
 
+    /**
+     * Pass the 15/03/2002 date to isValidDate, and ensure it returns true.
+     */
+    @Test
+    @DisplayName("isValidDate - uninteresting non-leap year")
+    void testIsValidDateUninteresting() {
+        assertTrue(Date.isValidDate(15, 3, 2002));
+    }
+
+    /**
+     * Pass the 31/13/2023 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range month for non-leap year")
+    void testIsValidDateOutOfRangeMonthNonLeap() {
+        assertFalse(Date.isValidDate(31, 13, 2023));
+    }
+
+    /**
+     * Pass the 31/11/2023 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range month non-leap year")
+    void testIsValidDateOutOfRangeDayNonLeap() {
+        assertFalse(Date.isValidDate(31, 11, 2023));
+    }
+
+    /**
+     * Pass the 32/13/3023 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range day and month non-leap year")
+    void testIsValidDateOutOfRangeDayAndMonthNonLeap() {
+        assertFalse(Date.isValidDate(32, 13, 3023));
+    }
+
+    /**
+     * Pass the 29/02/2023 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - feb 29 of non-leap year non-leap year")
+    void testIsValidDateOutOfRangeDay29FebNonLeap() {
+        assertFalse(Date.isValidDate(29, 2, 2023));
+    }
+
+    /**
+     * Pass the 15/03/2024 date to isValidDate, and ensure it returns true.
+     */
+    @Test
+    @DisplayName("isValidDate - uninteresting leap year")
+    void testIsValidDateUninterestingLeap() {
+        assertTrue(Date.isValidDate(15, 3, 2024));
+    }
+
+    /**
+     * Pass the 31/13/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range month for leap year")
+    void testIsValidDateOutOfRangeMonthLeap() {
+        assertFalse(Date.isValidDate(31, 13, 2024));
+    }
+
+    /**
+     * Pass the 31/11/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range month non-leap year")
+    void testIsValidDateOutOfRangeDayLeap() {
+        assertFalse(Date.isValidDate(31, 11, 2024));
+    }
+
+    /**
+     * Pass the 32/13/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - out of range day and month leap year")
+    void testIsValidDateOutOfRangeDayAndMonthLeap() {
+        assertFalse(Date.isValidDate(32, 13, 2024));
+    }
+
+    /**
+     * Pass the 29/02/2024 date to isValidDate, and ensure it returns false.
+     */
+    @Test
+    @DisplayName("isValidDate - feb 29 of leap year")
+    void testIsValidDateOutOfRangeDay29FebLeap() {
+        assertTrue(Date.isValidDate(29, 2, 2024));
+    }
+
+    /* tests for compareTo */
+
+    // input space partitioning tests
+
+    /**
+     * Compare 15/04/2001 on 14/04/2001 using compareTo, and ensure it returns -1.
+     */
+    @Test
+    @DisplayName("compareTo - inferior to other")
+    void compareToInferiorToOther() {
+        assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(15, 4, 2001)));
+    }
+
+    /**
+     * Compare 14/04/2001 on 14/04/2001 using compareTo, and ensure it returns 0.
+     */
+    @Test
+    @DisplayName("compareTo - equal to other")
+    void compareToEqualToOther() {
+        assertEquals(0, new Date(14, 4, 2001).compareTo(new Date(14, 4, 2001)));
+    }
+
+    /**
+     * Compare 13/04/2001 on 14/04/2001 using compareTo, and ensure it returns 1.
+     */
+    @Test
+    @DisplayName("compareTo - superior to other")
+    void compareToSuperiorToOther() {
+        assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(13, 4, 2001)));
+    }
+
 }
