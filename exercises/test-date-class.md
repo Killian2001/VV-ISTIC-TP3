@@ -110,7 +110,8 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
     | first day of month ?  | f | f | v | v | f | f | v | v | f |
     | first month of year ? | f | v | f | v | f | v | f | v | f |
 
-    For `isValidDate`, we use the following characteristics, as we need to take account values ranges and leap years (especially the February 29) :
+    For `isValidDate`, we use the following characteristics, as we need to take account 
+    values ranges and leap years (especially the February 29) :
 
     - Is the input year a leap year ?
     - Is the given date a February 29 ?
