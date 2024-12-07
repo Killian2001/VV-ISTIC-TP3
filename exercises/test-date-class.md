@@ -136,5 +136,162 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
     - Input year equal to current year.
     - Input year superior to current year.
 
-    As these characterstics are mutually exclusives, there is 3 test cases to
+    As these characteristics are mutually exclusives, there is 3 test cases to
     implement.
+
+2. For `isLeapYear` :
+
+    ```java
+    public static boolean isLeapYear(int year) {
+        // Statement 1
+        if (year % 100 == 0)
+            // Statement 2
+            return year % 400 == 0;
+        // Statement 3
+        return year % 4 == 0;
+    }
+    ```
+
+    - Statement 1 executes statement 2  only if `year % 100 == 0`...
+    - Statement 2 returns the result of `year % 400 == 0`...
+    - ...otherwise statement 3 returns the result ```year % 4 == 0```.
+
+    Each of these conditions are taken in account of the previous input 
+    space partitioning.
+
+    For `nextDate` :
+
+    ```java
+    private static int[] getMonthDayCount(int year) {
+        // Statement 1
+        return isLeapYear(year) ? NUMBER_OF_DAYS_LEAP : NUMBER_OF_DAYS_REGULAR;
+    }
+
+    public Date nextDate() {
+        int newDay = day + 1;
+        int newMonth = month;
+        int newYear = year;
+
+        // Statement 2
+        if (newDay > getMonthDayCount(year)[month - 1]) {
+            newDay = 1;
+            newMonth++;
+        }
+
+        // Statement 3
+        if (newMonth > 12) {
+            newMonth = 1;
+            newYear++;
+        }
+
+        return new Date(newDay, newMonth, newYear);
+    }
+    ```
+
+    - Statement 1 returns conditionally the number of days of each month 
+    following if the given year regular or leap. The only difference 
+    between the arrays is that the second cell is equal to 28 and 29 
+    respectively for regular years and leap years.
+    - Statement 2 is executes its body only if the given date is the last 
+    day of a month.
+    - Statement 3 executes only its body when the given date is on 
+    December 31. 
+
+    These statements are covered by previously written tests.
+
+    For `previousDate` :
+
+    ```java
+    private static int[] getMonthDayCount(int year) {
+        // Statement 1
+        return isLeapYear(year) ? NUMBER_OF_DAYS_LEAP : NUMBER_OF_DAYS_REGULAR;
+    }
+
+    public Date previousDate() {
+        int newDay = day - 1;
+        int newMonth = month;
+        int newYear = year;
+
+        // Statement 2
+        if (newDay == 0) {
+            newMonth--;
+
+            if (newMonth != 0)
+                // Statement 3
+                newDay = getMonthDayCount(year)[newMonth - 1];
+            else
+                // Statement 4
+                newDay = 31;
+        }
+
+        // Statement 5
+        if (newMonth == 0) {
+            newMonth = 12;
+            newYear--;
+        }
+
+        return new Date(newDay, newMonth, newYear);
+    }
+    ```
+
+    - Statement 1 still works identically.
+    - Statement 2 executes its body if the date is the first day of a 
+    month...
+    - ...executing statement 3 or 4 depeending on if the date is the 1st 
+    january, preventing an illegal access to the day counts array.
+    - Statement 5 is also executed if the date is the 1st janaury.
+
+    These statements are also covered by previously written test cases.
+
+    For `isValidDate` :
+
+    ```java
+    public static boolean isValidDate(int day, int month, int year) {
+        // Statement 1
+        if (month < 1 || month > 12)
+            return false;
+
+        // Statement 2
+        return day >= 1 && day <= getMonthDayCount(year)[month - 1];
+    }
+    ```
+
+    - Statement 1 is executed if month number is out of range.
+    - Statement 2 return `true` if the day number is in range ; this
+    range can vary following the fact that the year is a leap year or not.
+
+    These cases are covered by tests.
+
+    For `compareTo` : 
+    
+    ```java
+    @Override
+    public int compareTo(Date other) {
+        // Statement 1
+        Objects.requireNonNull(other);
+
+        // Statement 2
+        if (other.year != year)
+            return year < other.year ? -1 : 1;
+
+        // Statement 3
+        if (other.month != month)
+            return month < other.month ? -1 : 1;
+
+        // Statement 4
+        if (other.day != day)
+            return day < other.day ? -1 : 1;
+
+        return 0;
+    }
+    ```
+
+    - Statement 1 covers the possibility that `other` is `null`, throwing a 
+    `NullPointerException`.
+    - Statements 2, 3 and 4 cover each comparison case : inferior, equal or 
+    superior.
+
+    Statement 2, 3 and 4 are effectively covered by test cases ; however, null case had been forgotten during the previous step, and had been
+    added to the test cases in this step.
+
+    
