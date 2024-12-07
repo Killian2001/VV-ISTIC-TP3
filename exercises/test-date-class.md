@@ -294,4 +294,40 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
     Statement 2, 3 and 4 are effectively covered by test cases ; however, null case had been forgotten during the previous step, and had been
     added to the test cases in this step.
 
-    
+3.  The only binary predicates of the class are located in `isValidDate` :
+
+    ```java
+    public static boolean isValidDate(int day, int month, int year) {
+        if (month < 1 || month > 12)
+            return false;
+
+        return day >= 1 && day <= getMonthDayCount(year)[month - 1];
+    }
+    ```
+
+    We can therefore define the following partition :
+
+    | Characteristic | 1 | 2 | 3 |
+    |----------------|---|---|---|
+    | `month < 1`    | f | f | v |
+    | `month > 12`   | f | v | f |
+
+    The two characteristics are exclusive ; hence, the last possible block 
+    is omitted, because it is inconsistent. Current tests covers only blocks 1
+    and 3 ; we add a test case for block 2. 
+
+    For `day >= 1 && day <= getMonthDayCount(year)[month - 1]`, knowing that the 
+    result of `getMonthDayCount(year)` depends on the fact that the year is a 
+    leap or regular year (due to Feb. 29), we have :
+
+    | Characteristic                             | 1 | 2 | 3 | 4 | 5 | 6 |
+    |--------------------------------------------|---|---|---|---|---|---|
+    | Leap year february ?                       | f | f | f | v | v | v |
+    | `day >= 1`                                 | f | v | v | f | v | v |
+    | `day <= getMonthDayCount(year)[month - 1]` | f | f | v | f | f | v |
+
+    The two excluded blocks corresponds to the cases where `day >= 1` is false
+    and `day <= getMonthDayCount(year)[month - 1]` is true.
+
+    Also here, cases where `day < 1` are not tested ; we add the corresponding
+    unit tests.
