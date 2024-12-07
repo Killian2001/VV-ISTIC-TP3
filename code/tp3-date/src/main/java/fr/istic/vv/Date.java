@@ -59,8 +59,7 @@ class Date implements Comparable<Date> {
         if (month < 1 || month > 12)
             return false;
 
-        int[] monthDayCount = isLeapYear(year) ? NUMBER_OF_DAYS_LEAP : NUMBER_OF_DAYS_REGULAR;
-        return day >= 1 && day <= monthDayCount[month - 1];
+        return day >= 1 && day <= getMonthDayCount(year)[month - 1];
     }
 
     /**

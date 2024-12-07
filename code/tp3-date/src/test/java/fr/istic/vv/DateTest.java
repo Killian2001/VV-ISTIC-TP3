@@ -421,4 +421,17 @@ class DateTest {
         assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(13, 4, 2001)));
     }
 
+    // statement coverage tests.
+
+    /**
+     * The 01/01/1970 date is created, and is null is passed as a parameter of its compareTo method.
+     * A NullPointerException is expected to be thrown.
+     */
+    @Test
+    @DisplayName("compareTo - date is null")
+    void compareToNull() {
+        Date date = new Date(1, 1, 1970);
+        assertThrows(NullPointerException.class, () -> date.compareTo(null));
+    }
+
 }
