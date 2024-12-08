@@ -196,7 +196,9 @@ https://pitest.org/quickstart/maven/
     The report obtained can be seen here : 
     [`tp3-balanced-strings/target/pit-reports/202412061223/index.html`](../code/tp3-balanced-strings/target/pit-reports/202412061223/index.html).
 
-    PIT indicates a good line coverage (94%) of the test suite. The tool created
-    11 mutants, which had all been succesfully killed, producing a mutation
+    PIT indicates a good line coverage (94%) of the test suite ; this score
+    is due to the fact the private constructor had not been tested, althrough it
+    does nothing and it is completely useless to test it. 
+    The tool created 11 mutants, which had all been succesfully killed, producing a mutation
     coverage of 100%., which shows, with the previous metric, that the test 
     efficiently covers and evaluates the behaviour of the `isBalanced` function.
