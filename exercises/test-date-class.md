@@ -331,3 +331,42 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
 
     Also here, cases where `day < 1` are not tested ; we add the corresponding
     unit tests.
+
+4.  PIT is already included in `pom.xml`, we add the following configuration :
+
+    ```xml
+    <configuration>
+        <targetClasses>
+            <param>fr.istic.vv.Date</param>
+        </targetClasses>
+        <targetTests>
+            <param>fr.istic.vv.DateTest</param>
+        </targetTests>
+    </configuration>
+    ```
+
+    Then we run :
+
+    ```bash
+    mvn test-compile org.pitest:pitest-maven:mutationCoverage
+    ```
+
+    ![Results from the first run of PIT](img/pi_test1.png)
+
+    The [generated report](../code/tp3-date/target/pit-reports/202412080100/index.html) 
+    line coverage is 92%, which is relatively good ; however, we can see
+    that the mutation coverage is only 87%, due to the fact that over 54
+    non-equivalent mutants, 7 had not been succesfully killed.
+
+    The [details of the report](file:///D:/Cours/Cours/S9/VV/TP/VV-ISTIC-TP3/code/tp3-date/target/pit-reports/202412080100/fr.istic.vv/Date.java.html) indicate that several
+    conditional changes in `compareTo` does not affects the test suite. In fact,
+    the partitioning we've done for this method is insufficient, and should more
+    focus on each parameter : we need for example ensure that differences between
+    `day` properties of each `Date` leads to a correct result from `compareTo`.
+    Thus, we add additional test cases to do so. After few PIT run, several more
+    tests case, using dates with for example superior days but inferior month
+    were added.
+
+    We also add forgotten test on constructors : as constructor is intended
+    to throw an exception if an invalid is supplied to it, we add a test
+    case, with an incorrect date supplied to it.

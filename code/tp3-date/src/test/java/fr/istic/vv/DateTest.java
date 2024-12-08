@@ -7,6 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DateTest {
 
+    /* Constructor test added after mutation analysis */
+
+    /**
+     * Supply the 14/13/2000 date to the constructor, and ensure it trows an
+     * IllegalArgumentException.
+     */
+    @Test
+    @DisplayName("constructor - invalid date")
+    void testConstructorInvalidDate() {
+        assertThrows(IllegalArgumentException.class, () -> new Date(14, 13, 2000));
+    }
+
     /* tests for isLeapYear */
 
     // input space partitioning tests
@@ -428,7 +440,7 @@ class DateTest {
      */
     @Test
     @DisplayName("compareTo - inferior to other")
-    void compareToInferiorToOther() {
+    void testCompareToInferiorToOther() {
         assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(15, 4, 2001)));
     }
 
@@ -437,7 +449,7 @@ class DateTest {
      */
     @Test
     @DisplayName("compareTo - equal to other")
-    void compareToEqualToOther() {
+    void testCompareToEqualToOther() {
         assertEquals(0, new Date(14, 4, 2001).compareTo(new Date(14, 4, 2001)));
     }
 
@@ -446,7 +458,7 @@ class DateTest {
      */
     @Test
     @DisplayName("compareTo - superior to other")
-    void compareToSuperiorToOther() {
+    void testCompareToSuperiorToOther() {
         assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(13, 4, 2001)));
     }
 
@@ -458,9 +470,83 @@ class DateTest {
      */
     @Test
     @DisplayName("compareTo - date is null")
-    void compareToNull() {
+    void testCompareToNull() {
         Date date = new Date(1, 1, 1970);
         assertThrows(NullPointerException.class, () -> date.compareTo(null));
+    }
+
+    // mutation testing
+
+    /**
+     * Compare 14/05/2001 on 14/04/2001 using compareTo, and ensure it returns -1.
+     */
+    @Test
+    @DisplayName("compareTo - month inferior to other")
+    void testCompareToInferiorMonth() {
+        assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(14, 5, 2001)));
+    }
+
+    /**
+     * Compare 14/03/2001 on 14/04/2001 using compareTo, and ensure it returns 1.
+     */
+    @Test
+    @DisplayName("compareTo - month superior to other")
+    void testCompareToSuperiorMonth() {
+        assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(14, 3, 2001)));
+    }
+
+    /**
+     * Compare 14/04/2002 on 14/04/2001 using compareTo, and ensure it returns -1.
+     */
+    @Test
+    @DisplayName("compareTo - year inferior to other")
+    void testCompareToInferiorYear() {
+        assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(14, 4, 2002)));
+    }
+
+    /**
+     * Compare 14/04/2000 on 14/04/2001 using compareTo, and ensure it returns 1.
+     */
+    @Test
+    @DisplayName("compareTo - year superior to other")
+    void testCompareToSuperiorYear() {
+        assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(14, 4, 2000)));
+    }
+
+    /**
+     * Compare 15/03/2001 on 14/04/2001 using compareTo, and ensure it returns 1.
+     */
+    @Test
+    @DisplayName("compareTo - day inferior but month superior to other")
+    void testCompareToDayInfMonthSup() {
+        assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(15, 3, 2001)));
+    }
+
+    /**
+     * Compare 13/05/2001 on 14/04/2001 using compareTo, and ensure it returns -1.
+     */
+    @Test
+    @DisplayName("compareTo - day superior but month inferior to other")
+    void testCompareToDaySupMonthInf() {
+        assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(13, 5, 2001)));
+    }
+
+    /**
+     * Compare 14/05/2000 on 14/04/2001 using compareTo, and ensure it returns 1.
+     */
+    @Test
+    @DisplayName("compareTo - month inferior but year superior to other")
+    void testCompareToMonthInfYearSup() {
+        assertEquals(1, new Date(14, 4, 2001).compareTo(new Date(14, 5, 2000)));
+    }
+
+    /**
+     * Compare 14/03/2002 on 14/04/2001 using compareTo, and ensure it returns -1.
+     */
+    @Test
+    @DisplayName("compareTo - month superior but year inferior to other")
+    void testCompareToMonthSupYearInf() {
+        assertEquals(-1, new Date(14, 4, 2001).compareTo(new Date(14, 3, 2002)));
     }
 
 }
