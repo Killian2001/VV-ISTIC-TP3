@@ -351,8 +351,6 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
     mvn test-compile org.pitest:pitest-maven:mutationCoverage
     ```
 
-    ![Results from the first run of PIT](img/pi_test1.png)
-
     The [generated report](../code/tp3-date/target/pit-reports/202412080100/index.html) 
     line coverage is 92%, which is relatively good ; however, we can see
     that the mutation coverage is only 87%, due to the fact that over 54
